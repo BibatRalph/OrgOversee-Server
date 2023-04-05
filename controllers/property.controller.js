@@ -63,6 +63,7 @@ const getPropertyDetail = async (req, res) => {
     }
 };
 
+//CREATE NEW
 const createProperty = async (req, res) => {
     try {
         const {
@@ -83,6 +84,9 @@ const createProperty = async (req, res) => {
         if (!user) throw new Error("User not found");
 
         const photoUrl = await cloudinary.uploader.upload(photo);
+         
+        console.log(photoUrl);
+
 
         const newProperty = await Property.create({
             title,
@@ -94,7 +98,10 @@ const createProperty = async (req, res) => {
             creator: user._id,
         });
 
+        console.log(newProperty);
+
         user.allProperties.push(newProperty._id);
+        
         await user.save({ session });
 
         await session.commitTransaction();
