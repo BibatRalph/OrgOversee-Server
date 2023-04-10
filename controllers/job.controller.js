@@ -12,7 +12,43 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-const getAllJobs = async (req,res) => {};
+const getAllJobs = async (req,res) => {
+     //Pagination,Sort,Search and Filter 
+    const {
+        _end,
+        _order,
+        _start,
+        _sort,
+        jobTitle_like = "",
+        jobType = "",
+    } = req.query;
+
+    const query = {};
+
+    if (jobType !== "") {
+        query.jobType = jobType;
+    }
+
+    if (jobTitle_like) {
+        query.jobTitle = { $regex: jobTitle_like, $options: "i" };
+    }
+
+    try {
+        const count = await jobModel.countDocuments({ query });
+
+        const Job = await jobModel.find(query)
+            .limit(_end)
+            .skip(_start)
+            .sort({ [_sort]: _order });
+
+        res.header("x-total-count", count);
+        res.header("Access-Control-Expose-Headers", "x-total-count");
+
+        res.status(200).json(Job);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 const getJobDetail = async (req,res) => {};
 
 const createJob = async (req,res) => {
