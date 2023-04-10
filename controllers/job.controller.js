@@ -49,7 +49,14 @@ const getAllJobs = async (req,res) => {
         res.status(500).json({ message: error.message });
     }
 };
-const getJobDetail = async (req,res) => {};
+const getJobDetail = async (req,res) => {
+    const {id} = req.params;
+    const JobExists = await jobModel.findOne({_id: id}).populate('creator');
+    if (JobExists) {
+        res.status(200).json(JobExists)} else {
+            res.status(400).json({message: 'Job not found!'});
+        }
+    };
 
 const createJob = async (req,res) => {
     try {
