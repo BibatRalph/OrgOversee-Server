@@ -7,7 +7,7 @@ const jobSchema = new mongoose.Schema({
     description: { type: String, required: true },
     location: { type: String, required: true },
     experience: { type: String, required: true },
-    skillSet: { type: String, required: true },
+    skillSet: { type: Array, required: true },
     Salary: { type: Number, required: true },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
