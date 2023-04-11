@@ -86,8 +86,62 @@ const createJob = async (req,res) => {
 }
 };
 
-const updateJob = async (req,res) => {};
-const deleteJob = async (req,res) => {};
+const updateJob = async (req,res) => {
+    try {
+        const { id } = req.params;
+        const { jobTitle,
+            department,
+            jobType,
+            description,
+            location,
+            experience,
+            skillSet,
+            Salary,} = req.body;
+
+        await jobModel.findByIdAndUpdate(
+            { _id: id },
+            {
+                jobTitle,
+            department,
+            jobType,
+            description,
+            location,
+            experience,
+            skillSet,
+            Salary,
+            },
+        );
+
+        res.status(200).json({ message: "Job updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+};
+const deleteJob = async (req,res) => {
+    try {
+        const { id } = req.params;
+
+        const JobDelete = await jobModel.findById({ _id: id }).populate(
+            "creator",
+        );
+
+        if (!JobDelete) throw new Error("Job not found");
+
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
+        JobDelete.remove({ session });
+        JobDelete.creator.allJobs.pull(JobDelete);
+
+        await JobDelete.creator.save({ session });
+        await session.commitTransaction();
+
+        res.status(200).json({ message: "Job deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 export {
     getAllJobs,
