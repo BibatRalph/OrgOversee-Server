@@ -61,7 +61,6 @@ const getJobDetail = async (req,res) => {
 const createJob = async (req,res) => {
     try {
         const {jobTitle,department,jobType,description,location,experience,skillSet,Salary,email,} = req.body;
-
     //New session for Atomic Creation of Job
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -71,11 +70,11 @@ const createJob = async (req,res) => {
 
     const newJob = await jobModel.create({
         jobTitle,department,jobType,description,location,experience,skillSet,Salary,
-        creator: user._id,
+        creator: user._id, 
     });
-
+    
     user.allJobs.push(newJob._id);
-        
+
     await user.save({ session });
 
     await session.commitTransaction();
