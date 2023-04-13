@@ -1,13 +1,17 @@
 import mongoose from "mongoose";
 
 const PropertySchema = new mongoose.Schema({
-    title: { type: String, required: true },
-    description: { type: String, required: true },
-    propertyType: { type: String, required: true },
-    location: { type: String, required: true },
-    price: { type: Number, required: true },
+    // required
     photo: { type: String, required: true },
+    email: { type: String, required: true },
+    jobID: { type: String, required: true },
+    // non-required
+    propertyType: { type: String, required: false },
+    location: { type: String, required: false },
+    price: { type: Number, required: false },
+    title: { type: String, required: false },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    jobtarget: { type: mongoose.Schema.Types.ObjectId, ref: "Jobs" },
 });
 
 const propertyModel = mongoose.model("Property", PropertySchema);

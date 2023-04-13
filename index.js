@@ -17,9 +17,13 @@ app.get("/", (req, res) => {
     res.send({ message: "App working" });
 });
 
+
+
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/Applicants", propertyRouter);
 app.use("/api/v1/Jobs", jobCreate);
+
+
 
 const startServer = async () => {
     try {

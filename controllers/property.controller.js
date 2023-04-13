@@ -66,40 +66,40 @@ const getPropertyDetail = async (req, res) => {
 const createProperty = async (req, res) => {
     try {
         const {
+            // from front-end
+            photo,
+            email,
+            jobID,
+            // Non-Required
             title,
             description,
             propertyType,
             location,
             price,
-            photo,
-            email,
         } = req.body;
 
         const session = await mongoose.startSession();
         session.startTransaction();
 
+        // find user and create session // Atomic process
         const user = await User.findOne({ email }).session(session);
 
         if (!user) throw new Error("User not found");
 
         const photoUrl = await cloudinary.uploader.upload(photo);
-         
-      
-
-
-        const newProperty = await Property.create({
-            title,
-            description,
-            propertyType,
-            location,
-            price,
+        const newApplicant = await Property.create({
             photo: photoUrl.url,
+            email,
+            jobID,
+ 
+            // Other
             creator: user._id,
+            jobtarget: jobID,
         });
 
     
-
-        user.allProperties.push(newProperty._id);
+        // create a instance for all applicants 
+        user.allProperties.push(newApplicant._id);
         
         await user.save({ session });
 
