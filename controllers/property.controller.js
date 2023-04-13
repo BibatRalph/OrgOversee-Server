@@ -70,12 +70,18 @@ const createProperty = async (req, res) => {
             photo,
             email,
             jobID,
+            name,
             // Non-Required
-            title,
-            description,
-            propertyType,
-            location,
-            price,
+             //personal info
+             persoEmail,
+             location,
+             gender,
+             age,
+             description,
+             // non-editable
+             jobTitleTarget,
+             stats,
+             result,
         } = req.body;
 
         const session = await mongoose.startSession();
@@ -91,10 +97,21 @@ const createProperty = async (req, res) => {
             photo: photoUrl.url,
             email,
             jobID,
- 
+            name,
+            //personal info
+            persoEmail,
+            location,
+            gender,
+            age,
+            description,
+            // non-editable
+            jobTitleTarget:jobTitleTarget,
+            stats,
+            result,
             // Other
             creator: user._id,
             jobtarget: jobID,
+       
         });
 
     
@@ -114,20 +131,46 @@ const createProperty = async (req, res) => {
 const updateProperty = async (req, res) => {
     try {
         const { id } = req.params;
-        const { title, description, propertyType, location, price, photo } =
-            req.body;
+        const {         // from front-end
+            photo,
+            email,
+            jobID,
+            name,
+            // Non-Required
+             //personal info
+             persoEmail,
+             location,
+             gender,
+             age,
+             description,
+             // non-editable
+             jobTitleTarget,
+             stats,
+             result,
+        } = req.body;
 
         const photoUrl = await cloudinary.uploader.upload(photo);
 
         await Property.findByIdAndUpdate(
             { _id: id },
             {
-                title,
-                description,
-                propertyType,
-                location,
-                price,
-                photo: photoUrl.url || photo,
+                     // from front-end
+            photo,
+            email,
+            jobID,
+            name,
+            // Non-Required
+             //personal info
+             persoEmail,
+             location,
+             gender,
+             age,
+             description,
+             // non-editable
+             jobTitleTarget,
+             stats,
+             result,
+            photo: photoUrl.url || photo,
             },
         );
 
