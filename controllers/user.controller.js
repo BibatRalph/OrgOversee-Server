@@ -36,6 +36,8 @@ const getUserInfoByID = async (req, res) => {
 
         const user = await User.findOne({ _id: id }).populate("allProperties");
 
+        // console.log(user)
+        
         if (user) {
             res.status(200).json(user);
         } else {

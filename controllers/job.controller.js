@@ -128,14 +128,14 @@ const deleteJob = async (req,res) => {
         if (!JobDelete) throw new Error("Job not found");
 
         const session = await mongoose.startSession();
-        session.startTransaction();
+        await session.withTransaction(async () => {
 
         JobDelete.remove({ session });
         JobDelete.creator.allJobs.pull(JobDelete);
 
         await JobDelete.creator.save({ session });
         await session.commitTransaction();
-
+    });
         res.status(200).json({ message: "Job deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

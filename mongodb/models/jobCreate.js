@@ -11,6 +11,7 @@ const jobSchema = new mongoose.Schema({
     Salary: { type: Number, required: true },
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     
+    Applicants: [{ type: mongoose.Schema.Types.ObjectId, ref: "Props" }],
 });
 
 const jobModel = mongoose.model("Jobs", jobSchema);
