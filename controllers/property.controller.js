@@ -18,18 +18,18 @@ const getAllProperties = async (req, res) => {
         _order,
         _start,
         _sort,
-        title_like = "",
-        propertyType = "",
+        name_like = "",
+        stats = "",
     } = req.query;
 
     const query = {};
 
-    if (propertyType !== "") {
-        query.propertyType = propertyType;
+    if (stats !== "") {
+        query.stats = stats;
     }
 
-    if (title_like) {
-        query.title = { $regex: title_like, $options: "i" };
+    if (name_like) {
+        query.name = { $regex: name_like, $options: "i" };
     }
 
     try {
@@ -107,7 +107,7 @@ const createProperty = async (req, res) => {
             // non-editable
             jobTitleTarget:jobTitleTarget,
             stats: "open",
-            result: "ongoing application",
+            result: "ongoing ",
             // Other
             creator: user._id,
             jobtarget: jobID,
