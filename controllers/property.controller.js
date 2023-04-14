@@ -106,8 +106,8 @@ const createProperty = async (req, res) => {
             description,
             // non-editable
             jobTitleTarget:jobTitleTarget,
-            stats,
-            result,
+            stats: "open",
+            result: "ongoing application",
             // Other
             creator: user._id,
             jobtarget: jobID,
