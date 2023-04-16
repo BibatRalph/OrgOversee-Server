@@ -106,8 +106,8 @@ const createProperty = async (req, res) => {
             description,
             // non-editable
             jobTitleTarget:jobTitleTarget,
-            stats: "open",
-            result: "ongoing ",
+            stats: 0,
+            result: "ongoing",
             // Other
             creator: user._id,
             jobtarget: jobID,
@@ -149,7 +149,7 @@ const updateProperty = async (req, res) => {
              result,
         } = req.body;
 
-        const photoUrl = await cloudinary.uploader.upload(photo);
+        // const photoUrl = await cloudinary.uploader.upload(photo);
 
         await Property.findByIdAndUpdate(
             { _id: id },
@@ -170,7 +170,7 @@ const updateProperty = async (req, res) => {
              jobTitleTarget,
              stats,
              result,
-            photo: photoUrl.url || photo,
+            // photo: photoUrl.url || photo,
             },
         );
 

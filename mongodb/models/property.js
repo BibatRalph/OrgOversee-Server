@@ -14,7 +14,7 @@ const PropertySchema = new mongoose.Schema({
     description: { type: String, required: false },
     // non-editable
     jobTitleTarget: { type: String, required: false },
-    stats: { type: String, required: false },
+    stats: { type: Number, required: false },
     result: { type: String, required: false },
     // others
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
