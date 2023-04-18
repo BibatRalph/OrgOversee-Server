@@ -21,6 +21,6 @@ const PropertySchema = new mongoose.Schema({
     jobtarget: { type: mongoose.Schema.Types.ObjectId, ref: "Jobs" },
 });
 
-const propertyModel = mongoose.model("Property", PropertySchema);
+const propertyModel = mongoose.model("Applicants", PropertySchema);
 
 export default propertyModel;

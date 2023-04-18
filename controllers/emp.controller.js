@@ -1,4 +1,5 @@
-import Property from "../mongodb/models/emp.js";
+import Property from "../mongodb/models/property.js";
+import emp from "../mongodb/models/emp.js";
 import User from "../mongodb/models/user.js";
 import mongoose from "mongoose";
 import * as dotenv from "dotenv";
@@ -33,9 +34,9 @@ const getAllProperties = async (req, res) => {
     }
 
     try {
-        const count = await Property.countDocuments({ query });
+        const count = await emp.countDocuments({ query });
 
-        const properties = await Property.find(query)
+        const data = await emp.find(query)
             .limit(_end)
             .skip(_start)
             .sort({ [_sort]: _order });
@@ -43,7 +44,7 @@ const getAllProperties = async (req, res) => {
         res.header("x-total-count", count);
         res.header("Access-Control-Expose-Headers", "x-total-count");
 
-        res.status(200).json(properties);
+        res.status(200).json(data);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -65,8 +66,8 @@ const getPropertyDetail = async (req, res) => {
 //CREATE NEW
 const createProperty = async (req, res) => {
     try {
-        const {
-            // from front-end
+        const { id } = req.params;
+        const {         // from front-end
             photo,
             email,
             jobID,
@@ -80,8 +81,6 @@ const createProperty = async (req, res) => {
              description,
              // non-editable
              jobTitleTarget,
-             stats,
-             result,
         } = req.body;
 
         const session = await mongoose.startSession();
@@ -93,7 +92,7 @@ const createProperty = async (req, res) => {
         if (!user) throw new Error("User not found");
 
         const photoUrl = await cloudinary.uploader.upload(photo);
-        const newApplicant = await Property.create({
+        const newApplicant = await emp.create({
             photo: photoUrl.url,
             email,
             jobID,
@@ -106,8 +105,6 @@ const createProperty = async (req, res) => {
             description,
             // non-editable
             jobTitleTarget:jobTitleTarget,
-            stats: 0,
-            result: "ongoing",
             // Other
             creator: user._id,
             jobtarget: jobID,
@@ -122,7 +119,7 @@ const createProperty = async (req, res) => {
 
         await session.commitTransaction();
 
-        res.status(200).json({ message: "Property created successfully" });
+        res.status(200).json({ message: "Employee created successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

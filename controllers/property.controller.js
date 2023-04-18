@@ -58,7 +58,7 @@ const getPropertyDetail = async (req, res) => {
     if (propertyExists) {
         res.status(200).json(propertyExists);
     } else {
-        res.status(404).json({ message: "Property not found" });
+        res.status(404).json({ message: "Applicant not found" });
     }
 };
 
@@ -122,7 +122,7 @@ const createProperty = async (req, res) => {
 
         await session.commitTransaction();
 
-        res.status(200).json({ message: "Property created successfully" });
+        res.status(200).json({ message: "Applicant created successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -174,7 +174,7 @@ const updateProperty = async (req, res) => {
             },
         );
 
-        res.status(200).json({ message: "Property updated successfully" });
+        res.status(200).json({ message: "Applicant updated successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -188,7 +188,7 @@ const deleteProperty = async (req, res) => {
             "creator",
         );
 
-        if (!propertyToDelete) throw new Error("Property not found");
+        if (!propertyToDelete) throw new Error("Applicant not found");
 
         const session = await mongoose.startSession();
         session.startTransaction();
@@ -199,7 +199,7 @@ const deleteProperty = async (req, res) => {
         await propertyToDelete.creator.save({ session });
         await session.commitTransaction();
 
-        res.status(200).json({ message: "Property deleted successfully" });
+        res.status(200).json({ message: "Applicant deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
