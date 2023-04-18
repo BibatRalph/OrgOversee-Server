@@ -111,8 +111,7 @@ const createProperty = async (req, res) => {
        
         });
 
-    
-        // create a instance for all applicants 
+        // create a instance for all 
         user.allProperties.push(newApplicant._id);
         
         await user.save({ session });
