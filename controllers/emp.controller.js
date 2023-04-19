@@ -55,23 +55,20 @@ const getPropertyDetail = async (req, res) => {
     const propertyExists = await Property.findOne({ _id: id }).populate(
         "creator",
     );  
-    // const empData = await emp.findOne({ _id: id })
-
-    // if (empData)
-    // {
-    //     res.status(200).json(empData);
-    // }
+    //ONLY WORKING IN ONBOARD
+    //NEED TO FIX ON VIEW EMP
     if (propertyExists) {
         res.status(200).json(propertyExists);
+        
     } else {
-        res.status(404).json({ message: "Employee to get not found" });
+        res.status(404).json({ message: "Target Applicant to get not found" });
     }
 };
+
 
 //CREATE NEW
 const createProperty = async (req, res) => {
     try {
-        const { id } = req.params;
         const {         // from front-end
             photo,
             email,
