@@ -54,12 +54,17 @@ const getPropertyDetail = async (req, res) => {
     const { id } = req.params;
     const propertyExists = await Property.findOne({ _id: id }).populate(
         "creator",
-    );
+    );  
+    // const empData = await emp.findOne({ _id: id })
 
+    // if (empData)
+    // {
+    //     res.status(200).json(empData);
+    // }
     if (propertyExists) {
         res.status(200).json(propertyExists);
     } else {
-        res.status(404).json({ message: "Property not found" });
+        res.status(404).json({ message: "Employee to get not found" });
     }
 };
 
@@ -89,7 +94,7 @@ const createProperty = async (req, res) => {
         // find user and create session // Atomic process
         const user = await User.findOne({ email }).session(session);
 
-        if (!user) throw new Error("User not found");
+        if (!user) throw new Error("User to create not found");
 
         const photoUrl = await cloudinary.uploader.upload(photo);
         const newApplicant = await emp.create({
@@ -147,7 +152,7 @@ const updateProperty = async (req, res) => {
 
         // const photoUrl = await cloudinary.uploader.upload(photo);
 
-        await Property.findByIdAndUpdate(
+        await emp.findByIdAndUpdate(
             { _id: id },
             {
                      // from front-end
@@ -170,7 +175,7 @@ const updateProperty = async (req, res) => {
             },
         );
 
-        res.status(200).json({ message: "Property updated successfully" });
+        res.status(200).json({ message: "Employee updated successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -180,11 +185,11 @@ const deleteProperty = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const propertyToDelete = await Property.findById({ _id: id }).populate(
+        const propertyToDelete = await emp.findById({ _id: id }).populate(
             "creator",
         );
 
-        if (!propertyToDelete) throw new Error("Property not found");
+        if (!propertyToDelete) throw new Error("Employee to delete not found");
 
         const session = await mongoose.startSession();
         session.startTransaction();
@@ -195,7 +200,7 @@ const deleteProperty = async (req, res) => {
         await propertyToDelete.creator.save({ session });
         await session.commitTransaction();
 
-        res.status(200).json({ message: "Property deleted successfully" });
+        res.status(200).json({ message: "Employee deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
