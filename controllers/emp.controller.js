@@ -69,9 +69,10 @@ const getPropertyDetail = async (req, res) => {
 //CREATE NEW
 const createProperty = async (req, res) => {
     try {
-        const {         // from front-end
+        const {         
+            // from front-end
             photo,
-            email,
+            email, // EMAIL CHECK if the User who click onboard is saved in our database
             jobID,
             name,
             // Non-Required

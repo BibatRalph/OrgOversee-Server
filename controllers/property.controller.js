@@ -80,8 +80,6 @@ const createProperty = async (req, res) => {
              description,
              // non-editable
              jobTitleTarget,
-             stats,
-             result,
         } = req.body;
 
         const session = await mongoose.startSession();
