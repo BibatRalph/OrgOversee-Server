@@ -52,11 +52,9 @@ const getAllProperties = async (req, res) => {
 
 const getPropertyDetail = async (req, res) => {
     const { id } = req.params;
-    const propertyExists = await Property.findOne({ _id: id }).populate(
+    const propertyExists = await emp.findOne({ _id: id }).populate(
         "creator",
     );  
-    //ONLY WORKING IN ONBOARD
-    //NEED TO FIX ON VIEW EMP
     if (propertyExists) {
         res.status(200).json(propertyExists);
         
