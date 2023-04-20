@@ -100,7 +100,7 @@ const updateJob = async (req,res) => {
         await jobModel.findByIdAndUpdate(
             { _id: id },
             {
-                jobTitle,
+            jobTitle,
             department,
             jobType,
             description,

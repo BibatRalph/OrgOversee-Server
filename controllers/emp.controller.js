@@ -73,6 +73,9 @@ const createProperty = async (req, res) => {
             email, // EMAIL CHECK if the User who click onboard is saved in our database
             jobID,
             name,
+            jobTitleTarget,
+            jobDepartmentTarget,
+            jobLocationTarget,
             // Non-Required
              //personal info
              persoEmail,
@@ -80,8 +83,6 @@ const createProperty = async (req, res) => {
              gender,
              age,
              description,
-             // non-editable
-             jobTitleTarget,
         } = req.body;
 
         const session = await mongoose.startSession();
@@ -98,14 +99,15 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            jobTitleTarget,
+            jobDepartmentTarget,
+            jobLocationTarget,
             //personal info
             persoEmail,
             location,
             gender,
             age,
             description,
-            // non-editable
-            jobTitleTarget:jobTitleTarget,
             // Other
             creator: user._id,
             jobtarget: jobID,
@@ -133,6 +135,9 @@ const updateProperty = async (req, res) => {
             email,
             jobID,
             name,
+            jobTitleTarget,
+            jobDepartmentTarget,
+            jobLocationTarget,
             // Non-Required
              //personal info
              persoEmail,
@@ -141,7 +146,6 @@ const updateProperty = async (req, res) => {
              age,
              description,
              // non-editable
-             jobTitleTarget,
              stats,
              result,
         } = req.body;
@@ -156,6 +160,9 @@ const updateProperty = async (req, res) => {
             email,
             jobID,
             name,
+            jobTitleTarget,
+            jobDepartmentTarget,
+            jobLocationTarget,
             // Non-Required
              //personal info
              persoEmail,
@@ -164,7 +171,6 @@ const updateProperty = async (req, res) => {
              age,
              description,
              // non-editable
-             jobTitleTarget,
              stats,
              result,
             // photo: photoUrl.url || photo,

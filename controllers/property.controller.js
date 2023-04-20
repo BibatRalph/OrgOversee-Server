@@ -71,6 +71,9 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            jobTitleTarget,
+            jobDepartmentTarget,
+            jobLocationTarget,
             // Non-Required
              //personal info
              persoEmail,
@@ -78,8 +81,6 @@ const createProperty = async (req, res) => {
              gender,
              age,
              description,
-             // non-editable
-             jobTitleTarget,
         } = req.body;
 
         const session = await mongoose.startSession();
@@ -96,14 +97,17 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            jobTitleTarget:jobTitleTarget,
+            jobDepartmentTarget,
+            jobLocationTarget,
             //personal info
             persoEmail,
             location,
             gender,
             age,
             description,
-            // non-editable
-            jobTitleTarget:jobTitleTarget,
+            // edit only
+       
             stats: 0,
             result: "Ongoing",
             // Other
@@ -134,6 +138,9 @@ const updateProperty = async (req, res) => {
             email,
             jobID,
             name,
+            jobTitleTarget,
+            jobDepartmentTarget,
+            jobLocationTarget,
             // Non-Required
              //personal info
              persoEmail,
@@ -141,8 +148,7 @@ const updateProperty = async (req, res) => {
              gender,
              age,
              description,
-             // non-editable
-             jobTitleTarget,
+             // edit only
              stats,
              result,
         } = req.body;
@@ -152,11 +158,14 @@ const updateProperty = async (req, res) => {
         await Property.findByIdAndUpdate(
             { _id: id },
             {
-                     // from front-end
+             // from front-end
             photo,
             email,
             jobID,
             name,
+            jobTitleTarget,
+            jobDepartmentTarget,
+            jobLocationTarget,
             // Non-Required
              //personal info
              persoEmail,
@@ -164,9 +173,8 @@ const updateProperty = async (req, res) => {
              gender,
              age,
              description,
-             // non-editable
-             jobTitleTarget,
-             stats,
+              // edit only
+             stats, 
              result,
             // photo: photoUrl.url || photo,
             },
