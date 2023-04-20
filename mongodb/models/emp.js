@@ -15,7 +15,8 @@ const empSchema = new mongoose.Schema({
     gender: { type: String, required: false },
     age: { type: Number, required: false },
     description: { type: String, required: false },
-
+    // edit only
+    stats: { type: Number, required: false },
     // others
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     jobtarget: { type: mongoose.Schema.Types.ObjectId, ref: "Jobs" },

@@ -107,7 +107,6 @@ const createProperty = async (req, res) => {
             age,
             description,
             // edit only
-       
             stats: 0,
             result: "Ongoing",
             // Other

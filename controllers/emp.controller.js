@@ -111,7 +111,7 @@ const createProperty = async (req, res) => {
             // Other
             creator: user._id,
             jobtarget: jobID,
-       
+            stats: 0,
         });
 
         // create a instance for all 
@@ -147,7 +147,6 @@ const updateProperty = async (req, res) => {
              description,
              // non-editable
              stats,
-             result,
         } = req.body;
 
         // const photoUrl = await cloudinary.uploader.upload(photo);
@@ -172,7 +171,6 @@ const updateProperty = async (req, res) => {
              description,
              // non-editable
              stats,
-             result,
             // photo: photoUrl.url || photo,
             },
         );
