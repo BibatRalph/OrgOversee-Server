@@ -47,7 +47,7 @@ const getOffInfo = async (req,res) => {
     const JobExists = await jobModel.findOne({_id: id}).populate('creator');
     if (JobExists) {
         res.status(200).json(JobExists)} else {
-            res.status(400).json({message: 'Job not found!'});
+            res.status(400).json({message: 'All Requests not found!'});
         }
     };
 
@@ -81,30 +81,16 @@ const createOff= async (req,res) => {
 const updateOff = async (req,res) => {
     try {
         const { id } = req.params;
-        const { jobTitle,
-            department,
-            offStats,
-            description,
-            location,
-            experience,
-            skillSet,
-            Salary,} = req.body;
+        const { date,name,email,avatar,offStats} = req.body;
 
-        await jobModel.findByIdAndUpdate(
+        await TimeOffModel.findByIdAndUpdate(
             { _id: id },
             {
-            jobTitle,
-            department,
-            offStats,
-            description,
-            location,
-            experience,
-            skillSet,
-            Salary,
+                date,name,email,avatar,offStats
             },
         );
 
-        res.status(200).json({ message: "Job updated successfully" });
+        res.status(200).json({ message: "Request updated successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -114,22 +100,24 @@ const deleteOff = async (req,res) => {
     try {
         const { id } = req.params;
 
-        const JobDelete = await jobModel.findById({ _id: id }).populate(
-            "creator",
-        );
+        const Delete = await TimeOffModel.findById({ _id: id })
+        // .populate(
+        //     "creator",
+        // );
 
-        if (!JobDelete) throw new Error("Job not found");
+        if (!Delete) throw new Error("Request not found");
 
         const session = await mongoose.startSession();
         await session.withTransaction(async () => {
 
-        JobDelete.remove({ session });
-        JobDelete.creator.allJobs.pull(JobDelete);
+        Delete.remove({ session });
+        // Delete.creator.allJobs.pull(Delete);
 
-        await JobDelete.creator.save({ session });
+        // await Delete.creator.save({ session });
+      
         await session.commitTransaction();
     });
-        res.status(200).json({ message: "Job deleted successfully" });
+        res.status(200).json({ message: "Request deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
