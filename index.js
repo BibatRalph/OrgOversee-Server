@@ -7,6 +7,7 @@ import userRouter from "./routes/user.routes.js";
 import propertyRouter from "./routes/property.routes.js";
 import jobCreate from "./routes/jobCreate.routes.js";
 import EmpRouter from "./routes/emp.routes.js";
+import timeOff from "./routes/timeOff.routes.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/Applicants", propertyRouter);
 app.use("/api/v1/Jobs", jobCreate);
 app.use("/api/v1/Employee", EmpRouter);
+app.use("/api/v1/Timeoff", timeOff);
 
 
 const startServer = async () => {
