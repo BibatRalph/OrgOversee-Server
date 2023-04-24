@@ -5,7 +5,8 @@ const OffSchema = new mongoose.Schema({
     id: { type: String, required: false },
     date: { type: Object, required: true },
     email: { type: String, required: false },
-    
+    avatar: { type: String, required: false },
+    offStats: { type: String, required: false },
 });
 
 const TimeOffModel = mongoose.model("TimeOff", OffSchema);

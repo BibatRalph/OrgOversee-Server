@@ -13,38 +13,31 @@ cloudinary.config({
 });
 
 const getallOff = async (req,res) => {
-     //Pagination,Sort,Search and Filter 
     const {
         _end,
         _order,
         _start,
         _sort,
-        jobTitle_like = "",
-        jobType = "",
+        offStats = "Pending",
     } = req.query;
 
     const query = {};
 
-    if (jobType !== "") {
-        query.jobType = jobType;
-    }
-
-    if (jobTitle_like) {
-        query.jobTitle = { $regex: jobTitle_like, $options: "i" };
+    if (offStats !== "") {
+        query.offStats = offStats;
     }
 
     try {
-        const count = await jobModel.countDocuments({ query });
+        const count = await TimeOffModel.countDocuments({ query });
 
-        const Job = await jobModel.find(query)
+        const data = await TimeOffModel.find(query)
             .limit(_end)
             .skip(_start)
             .sort({ [_sort]: _order });
 
         res.header("x-total-count", count);
         res.header("Access-Control-Expose-Headers", "x-total-count");
-
-        res.status(200).json(Job);
+        res.status(200).json(data);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -60,7 +53,7 @@ const getOffInfo = async (req,res) => {
 
 const createOff= async (req,res) => {
     try {
-        const {date,name,id,email} = req.body;
+        const {date,name,id,email,avatar} = req.body;
     //New session for Atomic Creation of Job
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -69,8 +62,8 @@ const createOff= async (req,res) => {
     if (!user) throw new Error("User not found");
 
     const newJob = await TimeOffModel.create({
-        date,name,id,email,
-        creator: user._id, 
+        date,name,id,email,avatar,
+        offStats:"Pending"
     });
     
     // user.allJobs.push(newJob._id);
@@ -90,7 +83,7 @@ const updateOff = async (req,res) => {
         const { id } = req.params;
         const { jobTitle,
             department,
-            jobType,
+            offStats,
             description,
             location,
             experience,
@@ -102,7 +95,7 @@ const updateOff = async (req,res) => {
             {
             jobTitle,
             department,
-            jobType,
+            offStats,
             description,
             location,
             experience,
