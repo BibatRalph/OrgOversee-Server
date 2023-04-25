@@ -4,6 +4,7 @@ const UserSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     avatar: { type: String, required: true },
+    role: { type: String, required: false },
     // All created application
     allProperties: [{ type: mongoose.Schema.Types.ObjectId, ref: "Applicants" }],
     // All created jobs

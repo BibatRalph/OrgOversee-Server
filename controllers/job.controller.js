@@ -66,7 +66,7 @@ const createJob = async (req,res) => {
     session.startTransaction();
  
     const user = await User.findOne({ email }).session(session);
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error("User not found, Try to Log-in first");
 
     const newJob = await jobModel.create({
         jobTitle,department,jobType,description,location,experience,skillSet,Salary,

@@ -22,6 +22,7 @@ const createUser = async (req, res) => {
             name,
             email,
             avatar,
+            role: "User"
         });
 
         res.status(200).json(newUser);
@@ -35,8 +36,6 @@ const getUserInfoByID = async (req, res) => {
         const { id } = req.params;
 
         const user = await User.findOne({ _id: id }).populate("allProperties");
-
-        // console.log(user)
         
         if (user) {
             res.status(200).json(user);
