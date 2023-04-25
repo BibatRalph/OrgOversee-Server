@@ -21,6 +21,7 @@ const PropertySchema = new mongoose.Schema({
     // others
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     jobtarget: { type: mongoose.Schema.Types.ObjectId, ref: "Jobs" },
+    jobOwner: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // get job owner
 });
 
 const propertyModel = mongoose.model("Applicants", PropertySchema);

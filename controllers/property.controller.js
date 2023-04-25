@@ -67,6 +67,7 @@ const createProperty = async (req, res) => {
     try {
         const {
             // from front-end
+            jobOwner,
             photo,
             email,
             jobID,
@@ -112,6 +113,7 @@ const createProperty = async (req, res) => {
             // Other
             creator: user._id,
             jobtarget: jobID,
+            jobOwner,
        
         });
 
