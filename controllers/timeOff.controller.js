@@ -75,13 +75,29 @@ const updateOff = async (req,res) => {
         const { id } = req.params;
         const { date,name,email,avatar,offStats} = req.body;
 
-        await TimeOffModel.findByIdAndUpdate(
+        const Update = await TimeOffModel.findByIdAndUpdate(
             { _id: id },
             {
                 date,name,email,avatar,offStats
             },
+        ).populate(
+            "creator",
         );
 
+     
+        if (!Update) throw new Error("Request not found");
+
+        const session = await mongoose.startSession();
+        await session.withTransaction(async () => {
+
+            Update.remove({ session });
+        
+            Update.creator.allOff.pull(Update);
+
+        await Update.creator.save({ session });
+      
+        await session.commitTransaction();
+    });
         res.status(200).json({ message: "Request updated successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

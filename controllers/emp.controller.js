@@ -76,6 +76,7 @@ const createProperty = async (req, res) => {
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
+            Employer,
             // Non-Required
              //personal info
              persoEmail,
@@ -90,7 +91,7 @@ const createProperty = async (req, res) => {
         session.startTransaction();
 
         // find user and create session // Atomic process
-        const user = await User.findOne({ email }).session(session);
+        const user = await User.findOne({ Employer }).session(session);
 
         if (!user) throw new Error("User not found, Try to Log-in first");
 
