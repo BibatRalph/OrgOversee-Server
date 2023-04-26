@@ -90,7 +90,7 @@ const createProperty = async (req, res) => {
         // find user and create session // Atomic process
         const user = await User.findOne({ email }).session(session);
 
-        if (!user) throw new Error("User not found");
+        if (!user) throw new Error("User not found, Try to Log-in first");
 
         const photoUrl = await cloudinary.uploader.upload(photo);
         const newApplicant = await Property.create({
@@ -195,7 +195,7 @@ const deleteProperty = async (req, res) => {
             "creator",
         );
 
-        if (!propertyToDelete) throw new Error("Applicant not found");
+        if (!propertyToDelete) throw new Error("Applicant to delete not found");
 
         const session = await mongoose.startSession();
         session.startTransaction();

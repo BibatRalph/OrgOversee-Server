@@ -2,7 +2,6 @@ import express from "express";
 
 import {
     getallOff,
-    getOffInfo,
     createOff,
     updateOff,
     deleteOff,
@@ -11,7 +10,6 @@ import {
 const router = express.Router();
 
 router.route("/").get(getallOff);
-router.route("/:id").get(getOffInfo);
 router.route("/").post(createOff);
 router.route("/:id").patch(updateOff);
 router.route("/:id").delete(deleteOff);

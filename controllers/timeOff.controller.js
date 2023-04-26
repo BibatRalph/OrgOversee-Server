@@ -42,14 +42,6 @@ const getallOff = async (req,res) => {
         res.status(500).json({ message: error.message });
     }
 };
-const getOffInfo = async (req,res) => {
-    const {id} = req.params;
-    const JobExists = await jobModel.findOne({_id: id}).populate('creator');
-    if (JobExists) {
-        res.status(200).json(JobExists)} else {
-            res.status(400).json({message: 'All Requests not found!'});
-        }
-    };
 
 const createOff= async (req,res) => {
     try {
@@ -59,14 +51,14 @@ const createOff= async (req,res) => {
     session.startTransaction();
  
     const user = await User.findOne({ email }).session(session);
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error("User not found, Try to Log-in first");
 
-    const newJob = await TimeOffModel.create({
-        date,name,id,email,avatar,
+    const newOff = await TimeOffModel.create({
+        date,name,id,email,avatar,creator: user._id,
         offStats:"Pending"
-    });
+    }); 
     
-    // user.allJobs.push(newJob._id);
+    user.allOff.push(newOff._id);
 
     await user.save({ session });
 
@@ -101,9 +93,9 @@ const deleteOff = async (req,res) => {
         const { id } = req.params;
 
         const Delete = await TimeOffModel.findById({ _id: id })
-        // .populate(
-        //     "creator",
-        // );
+        .populate(
+            "creator",
+        );
 
         if (!Delete) throw new Error("Request not found");
 
@@ -111,9 +103,10 @@ const deleteOff = async (req,res) => {
         await session.withTransaction(async () => {
 
         Delete.remove({ session });
-        // Delete.creator.allJobs.pull(Delete);
+        
+        Delete.creator.allOff.pull(Delete);
 
-        // await Delete.creator.save({ session });
+        await Delete.creator.save({ session });
       
         await session.commitTransaction();
     });
@@ -125,7 +118,6 @@ const deleteOff = async (req,res) => {
 
 export {
     getallOff,
-    getOffInfo,
     createOff,
     updateOff,
     deleteOff,

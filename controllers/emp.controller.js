@@ -92,10 +92,10 @@ const createProperty = async (req, res) => {
         // find user and create session // Atomic process
         const user = await User.findOne({ email }).session(session);
 
-        if (!user) throw new Error("User to create not found");
+        if (!user) throw new Error("User not found, Try to Log-in first");
 
         const photoUrl = await cloudinary.uploader.upload(photo);
-        const newApplicant = await emp.create({
+        const newEmp = await emp.create({
             photo: photoUrl.url,
             email,
             jobID,
@@ -117,7 +117,7 @@ const createProperty = async (req, res) => {
         });
 
         // create a instance for all 
-        user.allProperties.push(newApplicant._id);
+        user.allEmp.push(newEmp._id);
         
         await user.save({ session });
 
@@ -187,19 +187,19 @@ const deleteProperty = async (req, res) => {
     try {
         const { id } = req.params;
 
-        const propertyToDelete = await emp.findById({ _id: id }).populate(
+        const ToDelete = await emp.findById({ _id: id }).populate(
             "creator",
         );
 
-        if (!propertyToDelete) throw new Error("Employee to delete not found");
+        if (!ToDelete) throw new Error("Employee to delete not found");
 
         const session = await mongoose.startSession();
         session.startTransaction();
 
-        propertyToDelete.remove({ session });
-        propertyToDelete.creator.allProperties.pull(propertyToDelete);
+        ToDelete.remove({ session });
+        ToDelete.creator.allEmp.pull(ToDelete);
 
-        await propertyToDelete.creator.save({ session });
+        await ToDelete.creator.save({ session });
         await session.commitTransaction();
 
         res.status(200).json({ message: "Employee deleted successfully" });

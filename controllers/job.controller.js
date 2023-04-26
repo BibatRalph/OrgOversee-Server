@@ -125,7 +125,7 @@ const deleteJob = async (req,res) => {
             "creator",
         );
 
-        if (!JobDelete) throw new Error("Job not found");
+        if (!JobDelete) throw new Error("Job to delete not found");
 
         const session = await mongoose.startSession();
         await session.withTransaction(async () => {

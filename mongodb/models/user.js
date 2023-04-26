@@ -9,6 +9,10 @@ const UserSchema = new mongoose.Schema({
     allProperties: [{ type: mongoose.Schema.Types.ObjectId, ref: "Applicants" }],
     // All created jobs
     allJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Jobs" }],
+     // All Employee jobs
+     allEmp: [{ type: mongoose.Schema.Types.ObjectId, ref: "Employee" }],
+      // All Time-Off jobs
+    allOff: [{ type: mongoose.Schema.Types.ObjectId, ref: "TimeOff" }],
 });
 
 const userModel = mongoose.model("User", UserSchema);
