@@ -20,6 +20,7 @@ const empSchema = new mongoose.Schema({
     // others
     creator: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     jobtarget: { type: mongoose.Schema.Types.ObjectId, ref: "Jobs" },
+    jobOwner: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
 
 const empModel = mongoose.model("Employee", empSchema);

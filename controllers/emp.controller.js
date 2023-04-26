@@ -83,6 +83,7 @@ const createProperty = async (req, res) => {
              gender,
              age,
              description,
+             jobOwner,
         } = req.body;
 
         const session = await mongoose.startSession();
@@ -111,6 +112,7 @@ const createProperty = async (req, res) => {
             // Other
             creator: user._id,
             jobtarget: jobID,
+            jobOwner: jobOwner,
             stats: 0,
         });
 
