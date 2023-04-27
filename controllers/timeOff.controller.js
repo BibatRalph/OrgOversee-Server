@@ -54,11 +54,11 @@ const createOff= async (req,res) => {
     if (!user) throw new Error("User not found, Try to Log-in first");
 
     const newOff = await TimeOffModel.create({
-        date,name,id,email,avatar,creator: user._id,
+        date,name,id,email,avatar,
+        creator: user._id,
         offStats:"Pending"
     }); 
     
-    user.allOff.push(newOff._id);
 
     await user.save({ session });
 
@@ -80,24 +80,7 @@ const updateOff = async (req,res) => {
             {
                 date,name,email,avatar,offStats
             },
-        ).populate(
-            "creator",
         );
-
-     
-        if (!Update) throw new Error("Request not found");
-
-        const session = await mongoose.startSession();
-        await session.withTransaction(async () => {
-
-            Update.remove({ session });
-        
-            Update.creator.allOff.pull(Update);
-
-        await Update.creator.save({ session });
-      
-        await session.commitTransaction();
-    });
         res.status(200).json({ message: "Request updated successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -119,8 +102,7 @@ const deleteOff = async (req,res) => {
         await session.withTransaction(async () => {
 
         Delete.remove({ session });
-        
-        Delete.creator.allOff.pull(Delete);
+    
 
         await Delete.creator.save({ session });
       
