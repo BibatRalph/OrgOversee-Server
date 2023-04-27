@@ -8,9 +8,9 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
+    cloud_name: "dzcenwimt",
+    api_key: "539616251266156",
+    api_secret: "kpaKG3wR4Lry-JdoxdYVXSk4eF8",
 });
 
 const getAllProperties = async (req, res) => {
