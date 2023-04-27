@@ -36,7 +36,7 @@ const getUserInfoByID = async (req, res) => {
         const { id } = req.params;
 
         const user = await User.findOne({ _id: id })
-        .populate("allProperties").populate("allJobs").populate("allOff").populate("allEmp");
+        .populate("allProperties").populate("allJobs").populate("allEmp");
         
         if (user) {
             res.status(200).json(user);
