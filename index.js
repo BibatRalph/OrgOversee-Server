@@ -28,20 +28,13 @@ app.use("/api/v1/Employee", EmpRouter);
 app.use("/api/v1/Timeoff", timeOff);
 
 app.use(express.static(path.join(__dirname, 'build')));
-app.use('*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
-
-app.get("/", (req, res) => {
-    res.send({ message: "App working" });
-});
-
+app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
 
 const startServer = async () => {
     try {
         connectDB("mongodb+srv://OrgOversee:OrgOversee20@cluster0.f51d8ua.mongodb.net/?retryWrites=true&w=majority");
 
-        app.listen(8080, () =>
-            console.log("Server started on port http://localhost:8080"),
-        );
+        app.listen(8080);
     } catch (error) {
         console.log(error);
     }
