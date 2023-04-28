@@ -34,8 +34,8 @@ const startServer = async () => {
     try {
         connectDB("mongodb+srv://OrgOversee:OrgOversee20@cluster0.f51d8ua.mongodb.net/?retryWrites=true&w=majority");
 
-        app.listen(8080, () => {
-            console.log('Server is up on 8080')
+        app.listen(3080, () => {
+            console.log('Server is up on 3080')
         })
     } catch (error) {
         console.log(error);
