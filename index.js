@@ -15,30 +15,16 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// FOR GAUTH
-const corsOptions = { 
-    // origin:'https://.com',
-    AccessControlAllowOrigin: '*',  
-    origin: '*',  
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE' 
-  }
-
 dotenv.config();
 
 const app = express();
 
-// FOR GAUTH
-app.use(cors(corsOptions));
+
+app.use(cors());
 
 app.use(express.json({ limit: "50mb" }));
 
-// FOR GAUTH
-app.use(function(req, res, next) {
- 
-      res.header('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
-      
-      next();
-  });
+
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/Applicants", propertyRouter);
