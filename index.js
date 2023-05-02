@@ -33,11 +33,12 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: "50mb" }));
 
 // FOR GAUTH
-app.use(express.static('build', {
-    setHeaders: (res) => {
-      res.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
-    }
-  }));
+app.use(function(req, res, next) {
+ 
+      res.header('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
+      
+      next();
+  });
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/Applicants", propertyRouter);
