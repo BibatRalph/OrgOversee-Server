@@ -35,8 +35,7 @@ app.use(express.json({ limit: "50mb" }));
 // FOR GAUTH
 app.use(express.static('build', {
     setHeaders: (res) => {
-      res.set('Cross-Origin-Opener-Policy', 'same-origin');
-      res.set('Cross-Origin-Embedder-Policy', 'require-corp');
+      res.set('Cross-Origin-Opener-Policy', 'same-origin-allow-popups');
     }
   }));
 
