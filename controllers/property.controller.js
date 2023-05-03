@@ -159,9 +159,6 @@ const updateProperty = async (req, res) => {
             {
              // from front-end
             photo,
-            email,
-            jobID,
-            name,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
