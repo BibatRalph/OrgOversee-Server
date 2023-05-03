@@ -5,7 +5,7 @@ const UserSchema = new mongoose.Schema({
     email: { type: String, required: true },
     avatar: { type: String, required: false },
     role: { type: String, required: false },
-
+    password: { type: String, required: false },
     // All created application
     allProperties: [{ type: mongoose.Schema.Types.ObjectId, ref: "Applicants" }],
     // All created jobs
