@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const PropertySchema = new mongoose.Schema({
     // required non-editable
-    photo: { type: String, required: true },
+    photo: { type: String, required: false },
     email: { type: String, required: true },
     jobID: { type: String, required: true },
     name: { type: String, required: true },
