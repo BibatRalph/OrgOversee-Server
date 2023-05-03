@@ -12,7 +12,7 @@ const getAllUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
     try {
-        const { name, email, avatar, password } = req.body;
+        const { name, email } = req.body;
 
         const userExists = await User.findOne({ email });
 
@@ -21,8 +21,6 @@ const createUser = async (req, res) => {
         const newUser = await User.create({
             name,
             email,
-            avatar,
-            password,
             role: "User"
         });
 
