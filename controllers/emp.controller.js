@@ -134,13 +134,6 @@ const updateProperty = async (req, res) => {
     try {
         const { id } = req.params;
         const {         // from front-end
-            photo,
-            email,
-            jobID,
-            name,
-            jobTitleTarget,
-            jobDepartmentTarget,
-            jobLocationTarget,
             // Non-Required
              //personal info
              persoEmail,
@@ -152,19 +145,10 @@ const updateProperty = async (req, res) => {
              stats,
         } = req.body;
 
-        // const photoUrl = await cloudinary.uploader.upload(photo);
 
         await emp.findByIdAndUpdate(
             { _id: id },
             {
-                     // from front-end
-            photo,
-            email,
-            jobID,
-            name,
-            jobTitleTarget,
-            jobDepartmentTarget,
-            jobLocationTarget,
             // Non-Required
              //personal info
              persoEmail,
