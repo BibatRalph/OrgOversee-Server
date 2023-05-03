@@ -68,7 +68,6 @@ const createProperty = async (req, res) => {
         const {
             // from front-end
             jobOwner,
-            photo,
             email,
             jobID,
             name,
@@ -92,9 +91,8 @@ const createProperty = async (req, res) => {
 
         if (!user) throw new Error("User not found, Try to Log-in first");
 
-        const photoUrl = await cloudinary.uploader.upload(photo);
+
         const newApplicant = await Property.create({
-            photo: photoUrl.url,
             email,
             jobID,
             name,
