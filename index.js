@@ -39,8 +39,8 @@ app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.ht
 const startServer = async () => {
     try {
         connectDB(process.env.MONGODB_URL);
-        app.listen(5080, () => {
-            console.log('Server is up on 5080')
+        app.listen(3080, () => {
+            console.log('Server is up on 3080')
         })
     } catch (error) {
         console.log(error);
