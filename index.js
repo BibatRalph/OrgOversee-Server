@@ -38,8 +38,7 @@ app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.ht
 
 const startServer = async () => {
     try {
-        connectDB("mongodb+srv://OrgOversee:OrgOversee20@cluster0.f51d8ua.mongodb.net/?retryWrites=true&w=majority");
-
+        connectDB(process.env.MONGODB_URL);
         app.listen(8080, () => {
             console.log('Server is up on 8080')
         })
