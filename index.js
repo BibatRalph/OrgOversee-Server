@@ -20,7 +20,6 @@ dotenv.config();
 
 const app = express();
 
-<<<<<<< HEAD
 
 app.use(cors());
 
@@ -28,8 +27,6 @@ app.use(express.json({ limit: "50mb" }));
 
 
 
-=======
->>>>>>> 4621ac639c68d6af388de28f7edc29d79c6c2af8
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/Applicants", propertyRouter);
 app.use("/api/v1/Jobs", jobCreate);
@@ -38,11 +35,6 @@ app.use("/api/v1/Timeoff", timeOff);
 
 app.use(express.static(path.join(__dirname, 'build')));
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
-
-<<<<<<< HEAD
-
-=======
->>>>>>> 4621ac639c68d6af388de28f7edc29d79c6c2af8
 
 const startServer = async () => {
     try {
