@@ -69,5 +69,28 @@ const updateUSER = async (req,res) => {
     }
 
 };
+const deleteUSER = async (req,res) => {
+    try {
+        const { id } = req.params;
 
-export { getAllUsers, createUser, getUserInfoByID,updateUSER };
+        const userDelete = await userModel.findById({ _id: id })
+
+        if (!userDelete) throw new Error("User to delete not found");
+
+        const session = await mongoose.startSession();
+        await session.withTransaction(async () => {
+
+        userDelete.remove({ session });
+        userDelete.pull(userDelete);
+
+        await userDelete.creator.save({ session });
+        await session.commitTransaction();
+    });
+        res.status(200).json({ message: "User deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
+export { getAllUsers, createUser, getUserInfoByID,updateUSER, deleteUSER};
