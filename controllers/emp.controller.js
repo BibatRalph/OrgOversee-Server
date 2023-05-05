@@ -85,6 +85,7 @@ const createProperty = async (req, res) => {
              age,
              description,
              jobOwner,
+             role
         } = req.body;
 
         const session = await mongoose.startSession();
@@ -115,6 +116,7 @@ const createProperty = async (req, res) => {
             jobtarget: jobID,
             jobOwner: jobOwner,
             stats: 0,
+            role: role,
         });
 
         // create a instance for all 

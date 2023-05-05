@@ -22,10 +22,7 @@ const app = express();
 
 
 app.use(cors());
-
 app.use(express.json({ limit: "50mb" }));
-
-
 
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/Applicants", propertyRouter);
@@ -33,8 +30,11 @@ app.use("/api/v1/Jobs", jobCreate);
 app.use("/api/v1/Employee", EmpRouter);
 app.use("/api/v1/Timeoff", timeOff);
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
+// app.use(express.static(path.join(__dirname, 'build')));
+// app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
+app.get("/", (req, res) => {
+    res.send({ message: "App working" });
+});
 
 const startServer = async () => {
     try {

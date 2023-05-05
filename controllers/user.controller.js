@@ -22,7 +22,6 @@ const createUser = async (req, res) => {
             name,
             email,
             password,
-            role: "User"
         });
 
         res.status(200).json(newUser);
