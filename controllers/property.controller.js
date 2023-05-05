@@ -71,6 +71,7 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            userID,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
@@ -96,6 +97,7 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            userID,
             jobTitleTarget:jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
@@ -134,9 +136,6 @@ const updateProperty = async (req, res) => {
         const { id } = req.params;
         const {         // from front-end
             photo,
-            email,
-            jobID,
-            name,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
