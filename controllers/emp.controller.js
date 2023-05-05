@@ -73,6 +73,7 @@ const createProperty = async (req, res) => {
             email, // EMAIL CHECK if the User who click onboard is saved in our database
             jobID,
             name,
+            userID,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
@@ -102,6 +103,7 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            userID,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
