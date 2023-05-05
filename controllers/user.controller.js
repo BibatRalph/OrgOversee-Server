@@ -1,3 +1,4 @@
+import userModel from "../mongodb/models/user.js";
 import User from "../mongodb/models/user.js";
 
 const getAllUsers = async (req, res) => {
@@ -48,4 +49,25 @@ const getUserInfoByID = async (req, res) => {
     }
 };
 
-export { getAllUsers, createUser, getUserInfoByID };
+const updateUSER = async (req,res) => {
+    try {
+        const { id } = req.params;
+        const { 
+            userID
+        } = req.body;
+
+        await userModel.findByIdAndUpdate(
+            { _id: id },
+            {
+            role:"Admin"
+            },
+        );
+
+        res.status(200).json({ message: "Employee updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+
+};
+
+export { getAllUsers, createUser, getUserInfoByID,updateUSER };
