@@ -23,7 +23,8 @@ const createUser = async (req, res) => {
             name,
             email,
             password,
-            role: "User"
+            role: "User",
+            hiringManger: ""
         });
 
         res.status(200).json(newUser);
@@ -53,13 +54,14 @@ const updateUSER = async (req,res) => {
     try {
         const { id } = req.params;
         const { 
-            userID
+            hiringManager
         } = req.body;
 
         await userModel.findByIdAndUpdate(
             { _id: id },
             {
-            role:"Admin"
+            role:"Admin",
+            hiringManager
             },
         );
 
@@ -73,17 +75,21 @@ const deleteUSER = async (req,res) => {
     try {
         const { id } = req.params;
 
-        const userDelete = await userModel.findById({ _id: id })
+        const Delete = await userModel.findById({ _id: id })
+        .populate(
+            "creator",
+        );
 
-        if (!userDelete) throw new Error("User to delete not found");
+        if (!Delete) throw new Error("User not found");
 
         const session = await mongoose.startSession();
         await session.withTransaction(async () => {
 
-        userDelete.remove({ session });
-        userDelete.pull(userDelete);
+        Delete.remove({ session });
+    
 
-        await userDelete.creator.save({ session });
+        await Delete.creator.save({ session });
+      
         await session.commitTransaction();
     });
         res.status(200).json({ message: "User deleted successfully" });
