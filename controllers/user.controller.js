@@ -54,13 +54,14 @@ const updateUSER = async (req,res) => {
     try {
         const { id } = req.params;
         const { 
+            role,
             hiringManager
         } = req.body;
 
         await userModel.findByIdAndUpdate(
             { _id: id },
             {
-            role:"Admin",
+            role,
             hiringManager
             },
         );
