@@ -184,22 +184,18 @@ const updateProperty = async (req, res) => {
 const deleteProperty = async (req, res) => {
     try {
         const { id } = req.params;
-
         const propertyToDelete = await Property.findById({ _id: id }).populate(
             "creator",
         );
-
         if (!propertyToDelete) throw new Error("Applicant to delete not found");
 
         const session = await mongoose.startSession();
-        session.startTransaction();
-
-        propertyToDelete.remove({ session });
-        propertyToDelete.creator.allProperties.pull(propertyToDelete);
-
-        await propertyToDelete.creator.save({ session });
-        await session.commitTransaction();
-
+        await session.withTransaction(async () => {
+            propertyToDelete.remove({ session });
+            propertyToDelete.creator.allProperties.pull(propertyToDelete);
+            await session.commitTransaction();
+        });
+     
         res.status(200).json({ message: "Applicant deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

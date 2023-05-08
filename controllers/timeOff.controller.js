@@ -101,14 +101,13 @@ const deleteOff = async (req,res) => {
 
         const session = await mongoose.startSession();
         await session.withTransaction(async () => {
+            Delete.remove({ session });
+            await session.commitTransaction();
+        });
+     
 
-        Delete.remove({ session });
-    
-
-        await Delete.creator.save({ session });
-      
-        await session.commitTransaction();
-    });
+     
+   
         res.status(200).json({ message: "Request deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

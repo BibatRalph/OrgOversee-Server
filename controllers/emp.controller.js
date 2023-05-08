@@ -173,22 +173,17 @@ const updateProperty = async (req, res) => {
 const deleteProperty = async (req, res) => {
     try {
         const { id } = req.params;
-
         const ToDelete = await emp.findById({ _id: id }).populate(
             "creator",
         );
-
         if (!ToDelete) throw new Error("Employee to delete not found");
 
         const session = await mongoose.startSession();
-        session.startTransaction();
-
-        ToDelete.remove({ session });
-        ToDelete.creator.allEmp.pull(ToDelete);
-
-        await ToDelete.creator.save({ session });
+        await session.withTransaction(async () => {
+            ToDelete.remove({ session });
+        });
+     
         await session.commitTransaction();
-
         res.status(200).json({ message: "Employee deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

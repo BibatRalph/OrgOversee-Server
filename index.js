@@ -28,10 +28,12 @@ app.use("/api/v1/Employee", EmpRouter);
 app.use("/api/v1/Timeoff", timeOff);
 
 //PROD
+
 app.use(express.static(path.join(__dirname, 'build')));
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
 
-//DEV
+// DEV
+
 // app.get("/", (req, res) => {
 //     res.send({ message: "App working" });
 // });
