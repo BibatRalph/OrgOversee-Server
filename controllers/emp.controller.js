@@ -1,4 +1,3 @@
-import Property from "../mongodb/models/property.js";
 import emp from "../mongodb/models/emp.js";
 import User from "../mongodb/models/user.js";
 import mongoose from "mongoose";
