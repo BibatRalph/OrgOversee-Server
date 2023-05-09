@@ -1,4 +1,3 @@
-import Property from "../mongodb/models/property.js";
 import emp from "../mongodb/models/emp.js";
 import User from "../mongodb/models/user.js";
 import mongoose from "mongoose";
@@ -8,9 +7,9 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 
 cloudinary.config({
-    cloud_name: "dzcenwimt",
-    api_key: "539616251266156",
-    api_secret: "kpaKG3wR4Lry-JdoxdYVXSk4eF8",
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const getAllProperties = async (req, res) => {
@@ -73,6 +72,7 @@ const createProperty = async (req, res) => {
             email, // EMAIL CHECK if the User who click onboard is saved in our database
             jobID,
             name,
+            userID,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
@@ -85,6 +85,7 @@ const createProperty = async (req, res) => {
              age,
              description,
              jobOwner,
+             
         } = req.body;
 
         const session = await mongoose.startSession();
@@ -101,6 +102,7 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            userID,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
@@ -171,22 +173,17 @@ const updateProperty = async (req, res) => {
 const deleteProperty = async (req, res) => {
     try {
         const { id } = req.params;
-
         const ToDelete = await emp.findById({ _id: id }).populate(
             "creator",
         );
-
         if (!ToDelete) throw new Error("Employee to delete not found");
 
         const session = await mongoose.startSession();
-        session.startTransaction();
-
-        ToDelete.remove({ session });
-        ToDelete.creator.allEmp.pull(ToDelete);
-
-        await ToDelete.creator.save({ session });
+        await session.withTransaction(async () => {
+            ToDelete.remove({ session });
+        });
+     
         await session.commitTransaction();
-
         res.status(200).json({ message: "Employee deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

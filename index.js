@@ -16,8 +16,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config();
-
 const app = express();
+
 app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 
@@ -27,15 +27,22 @@ app.use("/api/v1/Jobs", jobCreate);
 app.use("/api/v1/Employee", EmpRouter);
 app.use("/api/v1/Timeoff", timeOff);
 
+//PROD
+
 app.use(express.static(path.join(__dirname, 'build')));
 app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
 
+// DEV
+
+// app.get("/", (req, res) => {
+//     res.send({ message: "App working" });
+// });
+
 const startServer = async () => {
     try {
-        connectDB("mongodb+srv://OrgOversee:OrgOversee20@cluster0.f51d8ua.mongodb.net/?retryWrites=true&w=majority");
-
-        app.listen(8080, () => {
-            console.log('Server is up on 8080')
+        connectDB(process.env.MONGODB_URL);
+        app.listen(3080, () => {
+            console.log('Server is up on 3080')
         })
     } catch (error) {
         console.log(error);

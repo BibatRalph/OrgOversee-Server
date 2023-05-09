@@ -7,9 +7,9 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 
 cloudinary.config({
-    cloud_name: "dzcenwimt",
-    api_key: "539616251266156",
-    api_secret: "kpaKG3wR4Lry-JdoxdYVXSk4eF8",
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const getallOff = async (req,res) => {
@@ -28,7 +28,7 @@ const getallOff = async (req,res) => {
     }
 
     try {
-        const count = await TimeOffModel.countDocuments({ query });
+        const count = await TimeOffModel.countDocuments({ query }).populate('creator');
 
         const data = await TimeOffModel.find(query)
             .limit(_end)
@@ -45,7 +45,7 @@ const getallOff = async (req,res) => {
 
 const createOff= async (req,res) => {
     try {
-        const {date,name,id,email,avatar} = req.body;
+        const {date,name,id,email,avatar,hiringManager} = req.body;
     //New session for Atomic Creation of Job
     const session = await mongoose.startSession();
     session.startTransaction();
@@ -56,6 +56,7 @@ const createOff= async (req,res) => {
     const newOff = await TimeOffModel.create({
         date,name,id,email,avatar,
         creator: user._id,
+        hiringManager,
         offStats:"Pending"
     }); 
     
@@ -73,12 +74,12 @@ const createOff= async (req,res) => {
 const updateOff = async (req,res) => {
     try {
         const { id } = req.params;
-        const { date,name,email,avatar,offStats} = req.body;
+        const { date,name,email,avatar,offStats,hiringManager} = req.body;
 
         const Update = await TimeOffModel.findByIdAndUpdate(
             { _id: id },
             {
-                date,name,email,avatar,offStats
+                date,name,email,avatar,offStats,hiringManager
             },
         );
         res.status(200).json({ message: "Request updated successfully" });
@@ -100,14 +101,13 @@ const deleteOff = async (req,res) => {
 
         const session = await mongoose.startSession();
         await session.withTransaction(async () => {
+            Delete.remove({ session });
+            await session.commitTransaction();
+        });
+     
 
-        Delete.remove({ session });
-    
-
-        await Delete.creator.save({ session });
-      
-        await session.commitTransaction();
-    });
+     
+   
         res.status(200).json({ message: "Request deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

@@ -7,9 +7,9 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 
 cloudinary.config({
-    cloud_name: "dzcenwimt",
-    api_key: "539616251266156",
-    api_secret: "kpaKG3wR4Lry-JdoxdYVXSk4eF8",
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const getAllJobs = async (req,res) => {
@@ -124,18 +124,15 @@ const deleteJob = async (req,res) => {
         const JobDelete = await jobModel.findById({ _id: id }).populate(
             "creator",
         );
-
         if (!JobDelete) throw new Error("Job to delete not found");
-
         const session = await mongoose.startSession();
         await session.withTransaction(async () => {
-
-        JobDelete.remove({ session });
-        JobDelete.creator.allJobs.pull(JobDelete);
-
-        await JobDelete.creator.save({ session });
-        await session.commitTransaction();
-    });
+            JobDelete.remove({ session });
+            JobDelete.creator.allJobs.pull(JobDelete);
+          
+            await session.commitTransaction();
+        });
+    
         res.status(200).json({ message: "Job deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

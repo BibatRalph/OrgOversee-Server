@@ -6,6 +6,7 @@ const PropertySchema = new mongoose.Schema({
     email: { type: String, required: true },
     jobID: { type: String, required: true },
     name: { type: String, required: true },
+    userID: { type: String, required: false },
     jobTitleTarget: { type: String, required: true },
     jobDepartmentTarget: { type: String, required: true },
     jobLocationTarget: { type: String, required: true },

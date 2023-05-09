@@ -7,9 +7,9 @@ import { v2 as cloudinary } from "cloudinary";
 dotenv.config();
 
 cloudinary.config({
-    cloud_name: "dzcenwimt",
-    api_key: "539616251266156",
-    api_secret: "kpaKG3wR4Lry-JdoxdYVXSk4eF8",
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
 const getAllProperties = async (req, res) => {
@@ -71,6 +71,7 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            userID,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
@@ -96,6 +97,7 @@ const createProperty = async (req, res) => {
             email,
             jobID,
             name,
+            userID,
             jobTitleTarget:jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
@@ -134,9 +136,6 @@ const updateProperty = async (req, res) => {
         const { id } = req.params;
         const {         // from front-end
             photo,
-            email,
-            jobID,
-            name,
             jobTitleTarget,
             jobDepartmentTarget,
             jobLocationTarget,
@@ -185,22 +184,18 @@ const updateProperty = async (req, res) => {
 const deleteProperty = async (req, res) => {
     try {
         const { id } = req.params;
-
         const propertyToDelete = await Property.findById({ _id: id }).populate(
             "creator",
         );
-
         if (!propertyToDelete) throw new Error("Applicant to delete not found");
 
         const session = await mongoose.startSession();
-        session.startTransaction();
-
-        propertyToDelete.remove({ session });
-        propertyToDelete.creator.allProperties.pull(propertyToDelete);
-
-        await propertyToDelete.creator.save({ session });
-        await session.commitTransaction();
-
+        await session.withTransaction(async () => {
+            propertyToDelete.remove({ session });
+            propertyToDelete.creator.allProperties.pull(propertyToDelete);
+            await session.commitTransaction();
+        });
+     
         res.status(200).json({ message: "Applicant deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });
