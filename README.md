@@ -3,9 +3,9 @@
 <h3 align="center">Live:https://orgoversee.netlify.app/</h3>
 <h3 align="center">FrontEnd:https://github.com/BibatRalph/OrgOversee</h3>
 <h3 align="left">Sample Users:</h3>
-<p align="left"> Admin:admin@gmail.com
+<p align="left"> Admin- Username:"admin@gmail.com" Password:"admin20" (Create New Admin, Jobs, Has access to all features.)
 </p>
-<p align="left">Client:client@gmail.com
+<p align="left">Client- Username:"client@gmail.com" Password:"client20" (Apply Jobs, Limited Access)
 </p>
 <h3 align="left">Features:</h3>
 <p align="left"> Login and Registration - DEMO : https://www.loom.com/share/f32011dca9494380b25d46e36889b677
