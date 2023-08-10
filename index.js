@@ -29,14 +29,14 @@ app.use("/api/v1/Timeoff", timeOff);
 
 //PROD
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
+// app.use(express.static(path.join(__dirname, 'build')));
+// app.get('/*', (req, res) => res.sendFile(path.join(__dirname, 'build', 'index.html')));
 
 // DEV
 
-// app.get("/", (req, res) => {
-//     res.send({ message: "App working" });
-// });
+app.get("/", (req, res) => {
+    res.send({ message: "App working" });
+});
 
 const startServer = async () => {
     try {
